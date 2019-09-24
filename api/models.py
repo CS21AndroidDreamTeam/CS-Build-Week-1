@@ -15,6 +15,7 @@ class Player(models.Model):
     positiony = models.IntegerField()
 
 
+
 class Item(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField(max_length=1000)
