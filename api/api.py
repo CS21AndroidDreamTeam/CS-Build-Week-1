@@ -27,4 +27,4 @@ def initialize(request):
 @api_view(["GET"])
 def get_map(request):
     map = Room.objects.all()
-    return JsonResponse(map)
+    return JsonResponse(map, safe=False)
