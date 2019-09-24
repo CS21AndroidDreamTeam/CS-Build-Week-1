@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
-    'herokuapp',
+    
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
