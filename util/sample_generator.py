@@ -36,7 +36,7 @@ class World:
         self.grid = None
         self.width = 0
         self.height = 0
-    def generate_rooms(self, size_x, size_y, num_rooms):
+    def generate_rooms(self, size_x, size_y):
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
@@ -56,12 +56,16 @@ class World:
                     room = Room(idCount, "Road", "Just a dusty old road")
                     idCount += 1
                     self.grid[x][y] = room
+                    room.positionx = x
+                    room.positiony = y
                     room.save()
                 else:
                     ran = random.randint(0,14)
                     room = gen_room(ran, idCount)
                     idCount += 1
                     self.grid[x][y] = room
+                    room.positionx = x
+                    room.positiony = y
                     room.save()
 
 
@@ -134,11 +138,10 @@ class World:
 
 
 w = World()
-num_rooms = 44
-width = 8
-height = 7
-w.generate_rooms(width, height, num_rooms)
-w.print_rooms()
+width = 20
+height = 20
+w.generate_rooms(width, height)
+#w.print_rooms()
 
 
-print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
+print(f"\n\nWorld\n  height: {height}\n  width: {width}")
