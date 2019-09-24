@@ -16,7 +16,7 @@ class Player(models.Model):
     name = models.CharField(max_length=200)
     positionx = models.IntegerField()
     positiony = models.IntegerField()
-    current_room_csv = models.CharField()
+    current_room_csv = models.CharField(max_length=10, default="1,1")
 
 
 class Item(models.Model):

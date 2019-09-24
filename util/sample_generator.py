@@ -1,15 +1,9 @@
-# Sample Python code that can be used to generate rooms in
-# a zig-zag pattern.
-#
-# You can modify generate_rooms() to create your own
-# procedural generation algorithm and use print_rooms()
-# to see the world.
+
 import random
 from api.models import Player, Room, Item
 
 
-
-def gen_room(self, ranInt, roomId):
+def gen_room(ranInt, roomId):
     room_names = ["Prehistoric Cave", "Medieval Wizards Tower", "Abandoned Cottage", "Alchemists Laboratory", "Viking Barracks",
                     "Roman Colloseseum", "London Shop", "Futuristic Lab", "Barbaric Outpost", "Western Town", "Colonial Puritan Church",
                     "Nazi Meeting Hall", "Chinese Pagoda", "Cold War Nuclear Site", "Beached Pirate Ship"]
@@ -37,17 +31,11 @@ class World:
         self.width = 0
         self.height = 0
     def generate_rooms(self, size_x, size_y):
-        '''
-        Fill up the grid, bottom to top, in a zig-zag pattern
-        '''
-
-        # Initialize the grid
         self.grid = [None] * size_x
         self.width = size_x
         self.height = size_y
         for i in range( len(self.grid) ):
             self.grid[i] = [None] * size_y
-
         idCount = 0
         for x in range(size_x):
             for y in range(size_y):
@@ -61,87 +49,15 @@ class World:
                     room.save()
                 else:
                     ran = random.randint(0,14)
-                    room = gen_room(ran, idCount)
+                    room = gen_room(ranInt=ran, roomId=idCount)
                     idCount += 1
                     self.grid[x][y] = room
                     room.positionx = x
                     room.positiony = y
                     room.save()
 
-
-
-            # Create a room in the given direction
-            #room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
-            # Note that in Django, you'll need to save the room after you create it
-
-            # Save the room in the World grid
-            self.grid[y][x] = room
-
-            #room_count += 1
-
-
-
-
-    def print_rooms(self):
-        '''
-        Print the rooms in room_grid in ascii characters.
-        '''
-
-        # Add top border
-        str = "# " * ((3 + self.width * 5) // 2) + "\n"
-
-        # The console prints top to bottom but our array is arranged
-        # bottom to top.
-        #
-        # We reverse it so it draws in the right direction.
-        reverse_grid = list(self.grid) # make a copy of the list
-        reverse_grid.reverse()
-        for row in reverse_grid:
-            # PRINT NORTH CONNECTION ROW
-            str += "#"
-            for room in row:
-                if room is not None and room.n_to is not None:
-                    str += "  |  "
-                else:
-                    str += "     "
-            str += "#\n"
-            # PRINT ROOM ROW
-            str += "#"
-            for room in row:
-                if room is not None and room.w_to is not None:
-                    str += "-"
-                else:
-                    str += " "
-                if room is not None:
-                    str += f"{room.id}".zfill(3)
-                else:
-                    str += "   "
-                if room is not None and room.e_to is not None:
-                    str += "-"
-                else:
-                    str += " "
-            str += "#\n"
-            # PRINT SOUTH CONNECTION ROW
-            str += "#"
-            for room in row:
-                if room is not None and room.s_to is not None:
-                    str += "  |  "
-                else:
-                    str += "     "
-            str += "#\n"
-
-        # Add bottom border
-        str += "# " * ((3 + self.width * 5) // 2) + "\n"
-
-        # Print string
-        print(str)
-
-
 w = World()
 width = 20
 height = 20
 w.generate_rooms(width, height)
-#w.print_rooms()
-
-
 print(f"\n\nWorld\n  height: {height}\n  width: {width}")
