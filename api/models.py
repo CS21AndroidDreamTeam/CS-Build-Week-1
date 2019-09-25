@@ -1,8 +1,10 @@
 from django.db import models
 import uuid
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
+
 class Room(models.Model):
     objects = models.Manager
     name = models.CharField(max_length=200)
@@ -12,6 +14,7 @@ class Room(models.Model):
 
 
 class Player(models.Model):
+    objects = models.Manager
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=200)
     positionx = models.IntegerField()
@@ -20,5 +23,8 @@ class Player(models.Model):
 
 
 class Item(models.Model):
+    objects = models.Manager
     name = models.CharField(max_length=200)
     desc = models.TextField(max_length=1000)
+    origin = models.CharField(max_length=200, default="")
+    originid = models.IntegerField(default=0)
